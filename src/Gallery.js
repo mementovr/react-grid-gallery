@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Lightbox from 'react-images';
+// import Lightbox from 'react-images';
+import ReactImageVideoLightbox from 'react-image-video-lightbox';
 import Image from './Image.js';
 
 class Gallery extends Component {
@@ -252,7 +253,15 @@ class Gallery extends Component {
         return thumbs;
     }
 
+    
+
     render () {
+
+        const lightboxImages = this.state.images.map((image) => ({
+            url: image.src,
+            type: image.type
+        }));
+
         var images = this.state.thumbnails.map((item, idx) => {
             return <Image
             key={"Image-"+idx+"-"+item.src}
@@ -268,6 +277,7 @@ class Gallery extends Component {
             thumbnailStyle={this.props.thumbnailStyle}
             thumbnailImageComponent={this.props.thumbnailImageComponent}
                 />;});
+
         var resizeIframeStyles = {
             height: 0,
             margin: 0,
@@ -278,15 +288,14 @@ class Gallery extends Component {
             backgroundColor: "transparent",
             width: "100%"
         };
+
         return (
-                <div id={this.props.id}
-            className="ReactGridGallery"
-            ref={(c) => this._gallery = c}>
-                <iframe style={resizeIframeStyles}
-            ref={(c) => c && c.contentWindow
-                 && c.contentWindow.addEventListener('resize', this.onResize) } />
-                {images}
-                <Lightbox
+            <div>
+                <div id={this.props.id} className="ReactGridGallery" ref={(c) => this._gallery = c}>
+                    <iframe style={resizeIframeStyles} ref={(c) => c && c.contentWindow && c.contentWindow.addEventListener('resize', this.onResize) } />
+                    {images}
+
+                {/* <Lightbox
             images={this.props.images}
             backdropClosesModal={this.props.backdropClosesModal}
             currentImage={this.state.currentImage}
@@ -306,8 +315,19 @@ class Gallery extends Component {
             onClickThumbnail={this.getOnClickLightboxThumbnailFn()}
             showThumbnails={this.props.showLightboxThumbnails}
 		{...this.props.lightBoxProps}
-                />
+                /> */}
                 </div>
+                <div id="memento-lightbox">
+                {
+                    this.state.lightboxIsOpen &&
+                        <ReactImageVideoLightbox
+                        data={lightboxImages}
+                        startIndex={this.state.currentImage}
+                        showResourceCount={true}
+                        onCloseCallback={this.closeLightbox} />
+                }
+                </div>
+            </div>
         );
     }
 }
@@ -318,6 +338,7 @@ Gallery.propTypes = {
     images: PropTypes.arrayOf(
         PropTypes.shape({
             src: PropTypes.string.isRequired,
+            type: PropTypes.string.isRequired,
             nano: PropTypes.string,
             alt: PropTypes.string,
             thumbnail: PropTypes.string.isRequired,

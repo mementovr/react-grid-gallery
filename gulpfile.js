@@ -28,7 +28,8 @@ gulp.task('build-all', function() {
         /*'build-cljs-lib',*/
         'clean-web',
         ['browserify', 'copy-css', 'copy-html'],
-        'deploy-web');
+        // 'deploy-web'
+        );
 });
 
 gulp.task('clean-lib', function () {

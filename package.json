@@ -4,8 +4,9 @@
   "description": "Justified gallery component for React.",
   "main": "lib/Gallery.js",
   "dependencies": {
-    "react-images": "^0.5.16",
-    "prop-types": "^15.5.8"
+    "prop-types": "^15.5.8",
+    "react-image-video-lightbox": "^2.0.1",
+    "react-images": "^0.5.16"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
